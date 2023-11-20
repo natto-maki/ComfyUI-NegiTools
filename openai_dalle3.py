@@ -48,13 +48,4 @@ class OpenAiDalle3:
         images = images.permute(0, 2, 3, 1)
         images = images[:, :, :, :3]
         widths = resolution.split("x")
-        return images, widths[0], widths[1]
-
-
-NODE_CLASS_MAPPINGS = {
-    "OpenAiDalle3": OpenAiDalle3
-}
-
-NODE_DISPLAY_NAME_MAPPINGS = {
-    "OpenAiDalle3": "OpenAI DALLe3"
-}
+        return images, int(widths[0]), int(widths[1])
