@@ -12,6 +12,8 @@ Output should be in JSON format as follows: {"translated": "translated text"}'''
 class OpenAiTranslate:
     def __init__(self):
         self.__client = openai.OpenAI()
+        self.__previous_text = ""
+        self.__previous_translation = ""
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -56,9 +58,14 @@ class OpenAiTranslate:
         return r0.choices[0].message.content
 
     def doit(self, text_any_language):
+        if self.__previous_text == text_any_language and len(self.__previous_translation) != 0:
+            return (self.__previous_translation,)
         r0 = self.__invoke([
             {"role": "system", "content": _prompt},
             {"role": "user", "content": text_any_language}
         ])
         j0 = json.loads(r0)
-        return (j0["translated"] if "translated" in j0 and isinstance(j0["translated"], str) else "<error>",)
+        translation = j0["translated"] if "translated" in j0 and isinstance(j0["translated"], str) else "<error>"
+        self.__previous_text = text_any_language
+        self.__previous_translation = translation
+        return (translation,)
