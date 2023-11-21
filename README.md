@@ -42,10 +42,7 @@ required: OPENAI_API_KEY.
   Since it does not function as an actual seed value,
   the output will not be the same even if regenerated with the same value set.
 
-a
 <img src="resources/screenshot_openai_dalle3.png" alt="screenshot_openai_dalle3" width="300px">
-b
-![screenshot_openai_dalle3](resources/screenshot_openai_dalle3.png)
 
 
 ### OpenAI Translate to English
@@ -58,7 +55,7 @@ It may be even more useful in combination with String Function.
 
 required: OPENAI_API_KEY.
 
-![screenshot_openai_translate](resources/screenshot_openai_translate.png)
+<img src="resources/screenshot_openai_translate.png" alt="screenshot_openai_translate" width="300px">
 
 
 ### String Function
@@ -83,7 +80,7 @@ return "a girl with %s hair and %s eyes wearing %s maid costume" % (
 # got "a girl with green hair and red eyes wearing white maid costume", etc.
 ```
 
-![screenshot_string_function](resources/screenshot_string_function.png)
+<img src="resources/screenshot_string_function.png" alt="screenshot_string_function" width="600px">
 
 
 > [!NOTE]  
@@ -112,5 +109,5 @@ and repeat the generation process,
 then switch to `keep_previous` when a good picture is obtained, 
 and fix the seed value thereafter.
 
-![screenshot_seed_generator](resources/screenshot_seed_generator.png)
+<img src="resources/screenshot_seed_generator.png" alt="screenshot_seed_generator" width="450px">
 
