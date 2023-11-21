@@ -1,6 +1,6 @@
-from .openai_dalle3 import OpenAiDalle3
-from .openai_translate import OpenAiTranslate
-from .string_function import StringFunction
+from .negi.openai_dalle3 import OpenAiDalle3
+from .negi.openai_translate import OpenAiTranslate
+from .negi.string_function import StringFunction
 
 NODE_CLASS_MAPPINGS = {
     "NegiTools_OpenAiDalle3": OpenAiDalle3,
