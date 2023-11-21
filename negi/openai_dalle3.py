@@ -10,6 +10,10 @@ from torchvision.transforms import functional as TF
 class OpenAiDalle3:
     def __init__(self):
         self.__client = openai.OpenAI()
+        self.__previous_resolution = ""
+        self.__previous_seed = -1
+        self.__previous_prompt = ""
+        self.__cache = None
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -31,18 +35,26 @@ class OpenAiDalle3:
     CATEGORY = "Generator"
 
     def doit(self, resolution, dummy_seed, prompt):
-        _ = dummy_seed
-        r0 = self.__client.images.generate(
-            model="dall-e-3",
-            prompt=prompt,
-            size=resolution,
-            quality="hd",  # "standard"
-            n=1,
-            response_format="b64_json"
-        )
-        im0 = Image.open(io.BytesIO(base64.b64decode(r0.data[0].b64_json)))
-        im1 = TF.to_tensor(im0.convert("RGBA"))
-        im1[:3, im1[3, :, :] == 0] = 0
+        if (self.__cache is None or
+                self.__previous_resolution != resolution or self.__previous_seed != dummy_seed or
+                self.__previous_prompt != prompt):
+            r0 = self.__client.images.generate(
+                model="dall-e-3",
+                prompt=prompt,
+                size=resolution,
+                quality="hd",  # "standard"
+                n=1,
+                response_format="b64_json"
+            )
+            im0 = Image.open(io.BytesIO(base64.b64decode(r0.data[0].b64_json)))
+            im1 = TF.to_tensor(im0.convert("RGBA"))
+            im1[:3, im1[3, :, :] == 0] = 0
+            self.__previous_resolution = resolution
+            self.__previous_seed = dummy_seed
+            self.__previous_prompt = prompt
+            self.__cache = im1
+        else:
+            im1 = self.__cache
 
         images = torch.stack([im1])
         images = images.permute(0, 2, 3, 1)

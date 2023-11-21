@@ -12,6 +12,8 @@ _result.append(_string_function(_a, _b, _c))
 
 
 class StringFunction:
+    __generation = 0
+
     def __init__(self):
         pass
 
@@ -30,6 +32,15 @@ class StringFunction:
                 "c": ("STRING", {"multiline": False, "default": ""}),
             }
         }
+
+    @classmethod
+    def IS_CHANGED(cls, python_code, a, b, c):
+        _ = python_code
+        _ = a
+        _ = b
+        _ = c
+        cls.__generation += 1
+        return cls.__generation
 
     RETURN_TYPES = ("STRING",)
     FUNCTION = "doit"
