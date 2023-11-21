@@ -2,6 +2,8 @@ import random
 
 
 class SeedGenerator:
+    __generation = 0
+
     def __init__(self):
         self.__previous_seed = random.randint(0, 0xffffffffffffffff)
 
@@ -13,10 +15,16 @@ class SeedGenerator:
             }
         }
 
+    @classmethod
+    def IS_CHANGED(cls, generation_mode):
+        if generation_mode == "random":
+            cls.__generation += 1
+        return cls.__generation
+
     RETURN_TYPES = ("INT",)
     RETURN_NAMES = ("SEED",)
     FUNCTION = "doit"
-    OUTPUT_NODE = True
+    OUTPUT_NODE = False
     CATEGORY = "utils"
 
     def doit(self, generation_mode):
