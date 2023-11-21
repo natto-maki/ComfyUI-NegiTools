@@ -42,6 +42,9 @@ required: OPENAI_API_KEY.
   Since it does not function as an actual seed value,
   the output will not be the same even if regenerated with the same value set.
 
+a
+<img src="resources/screenshot_openai_dalle3.png" alt="screenshot_openai_dalle3" width="300px">
+b
 ![screenshot_openai_dalle3](resources/screenshot_openai_dalle3.png)
 
 
