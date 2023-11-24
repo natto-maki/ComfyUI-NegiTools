@@ -1,6 +1,7 @@
 _sandbox_template0 = '''\
 import random
 import re
+import json
 import numpy as np
 
 def _string_function(a, b, c):
