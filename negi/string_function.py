@@ -49,9 +49,13 @@ class StringFunction:
     CATEGORY = "utils"
 
     def doit(self, python_code, a, b, c):
+        # print("code = \"%s\"" % python_code)
         if python_code.find("import") != -1:
             raise ValueError("\"import\" cannot be included in python_code for security reasons")
 
+        # Workaround for a strange behavior of STRING
+        python_code = python_code.replace("\\{", "{")
+        python_code = python_code.replace("\\}", "}")
         code = (_sandbox_template0 +
                 "    " + "\n    ".join((python_code + "\n").split("\n")) + "\n" +
                 _sandbox_template1)
