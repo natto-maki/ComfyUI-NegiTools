@@ -3,6 +3,7 @@ from .negi.openai_translate import OpenAiTranslate
 from .negi.string_function import StringFunction
 from .negi.seed_generator import SeedGenerator
 from .negi.image_properties import ImageProperties, LatentProperties
+from .negi.composite_images import CompositeImages
 
 NODE_CLASS_MAPPINGS = {
     "NegiTools_OpenAiDalle3": OpenAiDalle3,
@@ -11,6 +12,7 @@ NODE_CLASS_MAPPINGS = {
     "NegiTools_SeedGenerator": SeedGenerator,
     "NegiTools_ImageProperties": ImageProperties,
     "NegiTools_LatentProperties": LatentProperties,
+    "NegiTools_CompositeImages": CompositeImages,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -20,4 +22,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "NegiTools_SeedGenerator": "Seed Generator 🧅",
     "NegiTools_ImageProperties": "Image Properties 🧅",
     "NegiTools_LatentProperties": "Latent Properties 🧅",
+    "NegiTools_CompositeImages": "Composite Images 🧅",
 }
