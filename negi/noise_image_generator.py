@@ -77,8 +77,8 @@ class NoiseImageGenerator:
                 "scale": ("FLOAT", {
                     "default": 1.0, "min": 0.0, "max": 1.0, "step": 0.01, "round": 0.001, "display": "slider"
                 }),
-                "bias": ("FLOAT", {
-                    "default": 0.0, "min": 0.0, "max": 1.0, "step": 0.01, "round": 0.001, "display": "slider"
+                "center": ("FLOAT", {
+                    "default": 0.5, "min": 0.0, "max": 1.0, "step": 0.01, "round": 0.001, "display": "slider"
                 }),
                 "perlin_freq_log2": ("INT", {"default": 4, "min": 1, "max": 11, "step": 1, "display": "slider"}),
                 "perlin_octaves": ("INT", {"default": 4, "min": 1, "max": 11, "step": 1, "display": "slider"}),
@@ -101,7 +101,7 @@ class NoiseImageGenerator:
         return np.fmax(0.0, np.fmin(1.0, image))
 
     def doit(
-            self, width, height, method, seed, scale, bias,
+            self, width, height, method, seed, scale, center,
             perlin_freq_log2, perlin_octaves, perlin_persistence, image_opt=None):
 
         if image_opt is not None:
@@ -111,13 +111,13 @@ class NoiseImageGenerator:
         rand_generator = np.random.default_rng(seed)
         image_r = None
         if method == "uniform_gray":
-            image_r = bias + scale * rand_generator.random((1, height, width, 1))
+            image_r = center + scale * (rand_generator.random((1, height, width, 1)) - 0.5)
         elif method == "uniform_color":
-            image_r = bias + scale * rand_generator.random((1, height, width, 3))
+            image_r = center + scale * (rand_generator.random((1, height, width, 3)) - 0.5)
         elif method == "gaussian_gray":
-            image_r = bias + scale * rand_generator.normal(bias + scale * 0.5, scale * 0.5, (1, height, width, 1))
+            image_r = center + scale * rand_generator.normal(0.0, 0.5, (1, height, width, 1))
         elif method == "gaussian_color":
-            image_r = bias + scale * rand_generator.normal(bias + scale * 0.5, scale * 0.5, (1, height, width, 3))
+            image_r = center + scale * rand_generator.normal(0.0, 0.5, (1, height, width, 3))
         elif method.startswith("perlin_"):
             shape = _find_shape(width, height)
             shape_log2 = int(np.log2(shape[0]))
@@ -136,7 +136,7 @@ class NoiseImageGenerator:
                         rand_generator, shape, (res, res), perlin_octaves, perlin_persistence)
                     for _ in range(3)], axis=-1)
             image_r = image_r.reshape((1, shape[0], shape[1], -1))[:, :height, :width, :]
-            image_r = bias + scale * 0.5 + (scale * 0.5) * image_r
+            image_r = center + (scale * 0.5) * image_r
 
         if image_r is None:
             raise ValueError()
