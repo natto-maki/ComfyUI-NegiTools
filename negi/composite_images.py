@@ -1,4 +1,5 @@
 import numpy as np
+import torch
 
 
 class CompositeImages:
@@ -38,6 +39,9 @@ class CompositeImages:
                     "display": "slider"
                 }),
             },
+            "optional": {
+                "mask_opt": ("MASK",),
+            }
         }
 
     RETURN_TYPES = ("IMAGE",)
@@ -53,7 +57,7 @@ class CompositeImages:
     def round_eps(image):
         return np.fmax(1.0 / 256, np.fmin(1.0, image))
 
-    def doit(self, image_B, image_F, method, alpha):
+    def doit(self, image_B, image_F, method, alpha, mask_opt=None):
         image_r = None
         if method == "default":
             image_r = image_F
@@ -94,5 +98,10 @@ class CompositeImages:
 
         if image_r is None:
             raise ValueError()
+
+        if mask_opt is not None:
+            width = image_B.shape[2]
+            height = image_B.shape[1]
+            alpha = alpha * torch.reshape(mask_opt, (1, height, width, 1))
 
         return ((1 - alpha) * image_B + alpha * self.round(image_r),)
