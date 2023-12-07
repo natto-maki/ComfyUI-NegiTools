@@ -13,7 +13,8 @@ class OpenAiDalle3:
         self.__previous_resolution = ""
         self.__previous_seed = -1
         self.__previous_prompt = ""
-        self.__cache = None
+        self.__cache_image = None
+        self.__cache_revised_prompt = ""
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -28,14 +29,14 @@ class OpenAiDalle3:
             }
         }
 
-    RETURN_TYPES = ("IMAGE", "INT", "INT")
-    RETURN_NAMES = ("IMAGE", "WIDTH", "HEIGHT")
+    RETURN_TYPES = ("IMAGE", "INT", "INT", "STRING")
+    RETURN_NAMES = ("IMAGE", "WIDTH", "HEIGHT", "REVISED_PROMPT")
     FUNCTION = "doit"
     OUTPUT_NODE = True
     CATEGORY = "Generator"
 
     def doit(self, resolution, dummy_seed, prompt):
-        if (self.__cache is None or
+        if (self.__cache_image is None or
                 self.__previous_resolution != resolution or self.__previous_seed != dummy_seed or
                 self.__previous_prompt != prompt):
             r0 = self.__client.images.generate(
@@ -49,15 +50,18 @@ class OpenAiDalle3:
             im0 = Image.open(io.BytesIO(base64.b64decode(r0.data[0].b64_json)))
             im1 = TF.to_tensor(im0.convert("RGBA"))
             im1[:3, im1[3, :, :] == 0] = 0
+            revised_prompt = r0.data[0].revised_prompt
             self.__previous_resolution = resolution
             self.__previous_seed = dummy_seed
             self.__previous_prompt = prompt
-            self.__cache = im1
+            self.__cache_image = im1
+            self.__cache_revised_prompt = revised_prompt
         else:
-            im1 = self.__cache
+            im1 = self.__cache_image
+            revised_prompt = self.__cache_revised_prompt
 
         images = torch.stack([im1])
         images = images.permute(0, 2, 3, 1)
         images = images[:, :, :, :3]
         widths = resolution.split("x")
-        return images, int(widths[0]), int(widths[1])
+        return images, int(widths[0]), int(widths[1]), revised_prompt

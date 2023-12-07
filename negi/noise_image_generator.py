@@ -88,6 +88,7 @@ class NoiseImageGenerator:
             },
             "optional": {
                 "image_opt": ("IMAGE",),
+                "mask_opt": ("MASK",),
             }
         }
 
@@ -102,11 +103,16 @@ class NoiseImageGenerator:
 
     def doit(
             self, width, height, method, seed, scale, center,
-            perlin_freq_log2, perlin_octaves, perlin_persistence, image_opt=None):
+            perlin_freq_log2, perlin_octaves, perlin_persistence,
+            image_opt=None, mask_opt=None):
 
         if image_opt is not None:
             width = image_opt.shape[2]
             height = image_opt.shape[1]
+
+        if mask_opt is not None:
+            if width != mask_opt.shape[2] or height != mask_opt.shape[1]:
+                raise ValueError("size of image_opt and width/height(or size of image_opt) must be same")
 
         rand_generator = np.random.default_rng(seed)
         image_r = None
@@ -139,7 +145,12 @@ class NoiseImageGenerator:
             image_r = center + (scale * 0.5) * image_r
 
         if image_r is None:
-            raise ValueError()
+            raise NotImplementedError()
+
+        image_r = torch.from_numpy(image_r.astype(np.float32))
+
+        if mask_opt is not None:
+            image_r = image_r * torch.reshape(mask_opt, (1, height, width, 1))
 
         image_b = image_opt if image_opt is not None else (
             torch.full((1, height, width, 3), 0.0, dtype=torch.float32, device="cpu"))
