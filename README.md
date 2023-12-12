@@ -2,7 +2,7 @@
 
 ## Installation
 
-- Install dependencies: pip install openai
+- Install dependencies: pip install -r requirements.txt
 
 - Clone the repository: git clone https://github.com/natto-maki/ComfyUI-NegiTools.git
   to your ComfyUI custom_nodes directory
@@ -147,9 +147,11 @@ and fix the seed value thereafter.
 
 Outputs the properties of the image. Currently only the resolution (width and height) can be output.
 
+
 ### utils/LatentProperties
 
 Outputs the properties of the latent image. Currently only the resolution (width and height) can be output.
+
 
 ### utils/CompositeImages
 
@@ -164,3 +166,16 @@ Composite two images with alpha.
   If the alpha value is 0.0, `image_B` will be output directly; 
   if the alpha value is 1.0, the composite result will be output.
   For intermediate values, the output is the result of weighted average both images using alpha.
+
+
+### utils/OpenPoseToPointList
+
+Detects key points on the human body using OpenPose. Results are output as a JSON string.
+
+This node is used in combination with utils/PointListToMask to generate masks based on key points.
+
+
+### utils/PointListToMask
+
+Generates a mask from the coordinate list output by utils/OpenPoseToPointList.
+
