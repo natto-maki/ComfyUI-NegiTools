@@ -36,6 +36,7 @@ class OpenPoseToPointList:
         }
 
     RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("POINT_LIST",)
     FUNCTION = "doit"
     OUTPUT_NODE = False
     CATEGORY = "utils"
