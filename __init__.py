@@ -6,6 +6,7 @@ from .negi.image_properties import ImageProperties, LatentProperties
 from .negi.composite_images import CompositeImages
 from .negi.noise_image_generator import NoiseImageGenerator
 from .negi.open_pose_to_point_list import OpenPoseToPointList
+from .negi.point_list_to_mask import PointListToMask
 
 NODE_CLASS_MAPPINGS = {
     "NegiTools_OpenAiDalle3": OpenAiDalle3,
@@ -17,6 +18,7 @@ NODE_CLASS_MAPPINGS = {
     "NegiTools_CompositeImages": CompositeImages,
     "NegiTools_NoiseImageGenerator": NoiseImageGenerator,
     "NegiTools_OpenPoseToPointList": OpenPoseToPointList,
+    "NegiTools_PointListToMask": PointListToMask,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -29,4 +31,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "NegiTools_CompositeImages": "Composite Images 🧅",
     "NegiTools_NoiseImageGenerator": "Noise Image Generator 🧅",
     "NegiTools_OpenPoseToPointList": "OpenPose to Point List 🧅",
+    "NegiTools_PointListToMask": "Point List to Mask 🧅",
 }
