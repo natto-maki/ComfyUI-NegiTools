@@ -81,6 +81,15 @@ Each component of the output image is scaled in the range of 0.0 to 1.0.
 Depth estimation using Marigold.
 
 
+### Generator/Stereo Image Generator
+
+Generates stereo image; 
+This custom node calls the image transformation algorithm contained in the following extension for A1111
+(automatically cloned).
+https://github.com/thygate/stable-diffusion-webui-depthmap-script
+
+
+
 ### utils/OpenAI Translate to English
 
 Translates text written in any language into English using GPT-4.
