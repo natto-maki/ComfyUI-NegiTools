@@ -76,6 +76,11 @@ Generate a noise image.
 Each component of the output image is scaled in the range of 0.0 to 1.0.
 
 
+### Generator/Depth Estimation by Marigold (experimental)
+
+Depth estimation using Marigold.
+
+
 ### utils/OpenAI Translate to English
 
 Translates text written in any language into English using GPT-4.
