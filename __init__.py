@@ -5,6 +5,9 @@ from .negi.seed_generator import SeedGenerator
 from .negi.image_properties import ImageProperties, LatentProperties
 from .negi.composite_images import CompositeImages
 from .negi.noise_image_generator import NoiseImageGenerator
+from .negi.open_pose_to_point_list import OpenPoseToPointList
+from .negi.point_list_to_mask import PointListToMask
+from .negi.depth_estimation_by_marigold import DepthEstimationByMarigold
 
 NODE_CLASS_MAPPINGS = {
     "NegiTools_OpenAiDalle3": OpenAiDalle3,
@@ -15,6 +18,9 @@ NODE_CLASS_MAPPINGS = {
     "NegiTools_LatentProperties": LatentProperties,
     "NegiTools_CompositeImages": CompositeImages,
     "NegiTools_NoiseImageGenerator": NoiseImageGenerator,
+    "NegiTools_OpenPoseToPointList": OpenPoseToPointList,
+    "NegiTools_PointListToMask": PointListToMask,
+    "NegiTools_DepthEstimationByMarigold": DepthEstimationByMarigold,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -26,4 +32,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "NegiTools_LatentProperties": "Latent Properties 🧅",
     "NegiTools_CompositeImages": "Composite Images 🧅",
     "NegiTools_NoiseImageGenerator": "Noise Image Generator 🧅",
+    "NegiTools_OpenPoseToPointList": "OpenPose to Point List 🧅",
+    "NegiTools_PointListToMask": "Point List to Mask 🧅",
+    "NegiTools_DepthEstimationByMarigold": "Depth Estimation by Marigold (experimental) 🧅",
 }
