@@ -1,8 +1,8 @@
 import json
 
 import numpy as np
-from controlnet_aux import OpenposeDetector
-from controlnet_aux.util import HWC3, resize_image
+from controlnet_aux.open_pose import OpenposeDetector
+from controlnet_aux.util import HWC3, resize_image_with_pad
 
 
 _names = [
@@ -44,7 +44,7 @@ class OpenPoseToPointList:
     def doit(self, image, detect_resolution, method):
         input_image = (np.fmax(0.0, np.fmin(1.0, image.to('cpu').detach().numpy()[0])) * 255.0).astype(np.uint8)
         input_image = HWC3(input_image)
-        input_image = resize_image(input_image, detect_resolution)
+        input_image = resize_image_with_pad(input_image, detect_resolution, upscale_method="INTER_CUBIC")
 
         poses = self.open_pose.detect_poses(input_image, include_hand=False, include_face=False)
 
