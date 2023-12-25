@@ -1,8 +1,9 @@
 import json
 
 import numpy as np
+import cv2
 from controlnet_aux import OpenposeDetector
-from controlnet_aux.util import HWC3, resize_image
+from controlnet_aux.util import HWC3
 
 
 _names = [
@@ -15,6 +16,19 @@ _names = [
 ]
 
 _name_to_index = {name: i for i, name in enumerate(_names)}
+
+
+def _resize_image(input_image, resolution):
+    H, W, C = input_image.shape
+    H = float(H)
+    W = float(W)
+    k = float(resolution) / min(H, W)
+    H *= k
+    W *= k
+    H = int(np.round(H / 64.0)) * 64
+    W = int(np.round(W / 64.0)) * 64
+    img = cv2.resize(input_image, (W, H), interpolation=cv2.INTER_LANCZOS4 if k > 1 else cv2.INTER_AREA)
+    return img
 
 
 class OpenPoseToPointList:
@@ -44,7 +58,7 @@ class OpenPoseToPointList:
     def doit(self, image, detect_resolution, method):
         input_image = (np.fmax(0.0, np.fmin(1.0, image.to('cpu').detach().numpy()[0])) * 255.0).astype(np.uint8)
         input_image = HWC3(input_image)
-        input_image = resize_image(input_image, detect_resolution)
+        input_image = _resize_image(input_image, detect_resolution)
 
         poses = self.open_pose.detect_poses(input_image, include_hand=False, include_face=False)
 
