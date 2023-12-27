@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+import gc
 
 import numpy as np
 import torch
@@ -76,6 +77,10 @@ class DepthEstimationByMarigold:
                    "bare (recommended)",
                    "venv (if \"bare\" doesn't work)",
                 ],),
+                "depth_exponent": ("FLOAT", {
+                    "default": 1.0, "min": 0.1, "max": 3.0, "step": 0.1, "round": 0.01, "display": "slider"
+                }),
+                "invert": ("BOOLEAN", {"default": False}),
             }
         }
 
@@ -85,7 +90,7 @@ class DepthEstimationByMarigold:
     OUTPUT_NODE = False
     CATEGORY = "Generator"
 
-    def doit(self, image, infer_passes, denoise_steps, seed, runtime):
+    def doit(self, image, infer_passes, denoise_steps, seed, runtime, depth_exponent, invert):
         use_venv = runtime.startswith("venv")
         self.__check_environment(use_venv)
 
@@ -110,6 +115,9 @@ class DepthEstimationByMarigold:
                 "output_dir_name": os.path.abspath(output_dir)
             })
 
+        # TODO It seems to be very bad idea, but it works; Try in-process execution
+        gc.collect()
+        torch.cuda.empty_cache()
         subprocess.run(["bash", os.path.join("work", "infer.sh")], cwd=self.rep_dir)
 
         im1 = np.load(os.path.join(output_dir, "depth_npy", "image_pred.npy")).astype(np.float32)
@@ -118,5 +126,8 @@ class DepthEstimationByMarigold:
         if im1_min == im1_max:
             im1_max = im1_min + 1.0
         im1 = (im1 - im1_min) * (1.0 / (im1_max - im1_min))
+        im1 = np.power(im1, depth_exponent)
+        if invert:
+            im1 = 1.0 - im1
 
         return (torch.from_numpy(np.expand_dims(np.stack([im1, im1, im1], axis=-1), axis=0)),)
