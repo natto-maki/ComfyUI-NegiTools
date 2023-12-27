@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+import gc
 
 import numpy as np
 import torch
@@ -114,6 +115,9 @@ class DepthEstimationByMarigold:
                 "output_dir_name": os.path.abspath(output_dir)
             })
 
+        # TODO It seems to be very bad idea, but it works; Try in-process execution
+        gc.collect()
+        torch.cuda.empty_cache()
         subprocess.run(["bash", os.path.join("work", "infer.sh")], cwd=self.rep_dir)
 
         im1 = np.load(os.path.join(output_dir, "depth_npy", "image_pred.npy")).astype(np.float32)
