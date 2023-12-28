@@ -3,9 +3,9 @@ import json
 import numpy as np
 import cv2
 import torch
-from controlnet_aux import OpenposeDetector
-from controlnet_aux.util import HWC3
-from controlnet_aux.open_pose import draw_poses
+from .repos.controlnet_aux.src.controlnet_aux import OpenposeDetector
+from .repos.controlnet_aux.src.controlnet_aux.util import HWC3
+from .repos.controlnet_aux.src.controlnet_aux.open_pose import draw_poses
 
 
 _names = [
