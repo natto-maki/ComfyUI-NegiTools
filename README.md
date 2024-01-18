@@ -1,5 +1,10 @@
 # ComfyUI-NegiTools
 
+> [!IMPORTANT]
+> "Depth Estimation by Marigold (experimental)" module is not maintained and will be discontinued in the future; 
+> if you would like to continue using Marigold, please consider using this alternative choice.
+> https://github.com/kijai/ComfyUI-Marigold
+
 ## Installation
 
 - Install dependencies: pip install -r requirements.txt

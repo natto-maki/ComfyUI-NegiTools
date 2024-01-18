@@ -10,6 +10,7 @@ from .negi.point_list_to_mask import PointListToMask
 from .negi.depth_estimation_by_marigold import DepthEstimationByMarigold
 from .negi.stereo_image_generator import StereoImageGenerator
 from .negi.image_reader_writer import RandomImageLoader, SaveImageToDirectory
+from .negi.detect_face_rotation_for_inpainting import DetectFaceRotationForInpainting
 
 NODE_CLASS_MAPPINGS = {
     "NegiTools_OpenAiDalle3": OpenAiDalle3,
@@ -26,6 +27,7 @@ NODE_CLASS_MAPPINGS = {
     "NegiTools_StereoImageGenerator": StereoImageGenerator,
     "NegiTools_RandomImageLoader": RandomImageLoader,
     "NegiTools_SaveImageToDirectory": SaveImageToDirectory,
+    "NegiTools_DetectFaceRotationForInpainting": DetectFaceRotationForInpainting,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -43,4 +45,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "NegiTools_StereoImageGenerator": "Stereo Image Generator 🧅",
     "NegiTools_RandomImageLoader": "Random Image Loader 🧅",
     "NegiTools_SaveImageToDirectory": "Save Image to Directory 🧅",
+    "NegiTools_DetectFaceRotationForInpainting": "Detect Face Rotation for Inpainting 🧅",
 }
