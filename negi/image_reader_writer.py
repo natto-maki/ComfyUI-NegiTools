@@ -1,18 +1,12 @@
 import glob
 import os
-import re
 
 import torch
 from PIL import Image
 import torchvision
 from torchvision.transforms import functional as TF
 
-
-def _get_directory(directory):
-    base_path = os.path.abspath(__file__)
-    for _ in range(4):
-        base_path = os.path.dirname(base_path)
-    return os.path.abspath(os.path.join(base_path, directory))
+from . import utils
 
 
 class RandomImageLoader:
@@ -34,7 +28,7 @@ class RandomImageLoader:
     CATEGORY = "utils"
 
     def doit(self, directory, seed):
-        directory = _get_directory(directory)
+        directory = utils.get_directory(directory)
         print("RandomImageLoader: directory = %s" % directory)
 
         files = (glob.glob(os.path.join(directory, "*.png")) +
@@ -76,18 +70,10 @@ class SaveImageToDirectory:
     CATEGORY = "utils"
 
     def doit(self, directory, image):
-        directory = _get_directory(directory)
-        os.makedirs(directory, exist_ok=True)
+        directory = utils.get_directory(directory)
         print("SaveImageToDirectory: directory = %s" % directory)
 
-        next_index = 0
-        files = glob.glob(os.path.join(directory, "out.??????.png"))
-        for file in files:
-            r = re.match(r"out\.(\d{6})\.png", os.path.basename(file))
-            if r is None:
-                continue
-            next_index = max(next_index, int(r.group(1)) + 1)
-
+        next_index = utils.find_next_index(directory)
         file_name = os.path.join(directory, "out.%06d.png" % next_index)
         print("SaveImageToDirectory: save to %s" % file_name)
 
