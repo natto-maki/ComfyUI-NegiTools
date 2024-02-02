@@ -23,7 +23,7 @@ class OpenAiGpt4v:
                 "image": ("IMAGE",),
                 "seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                 "detail": (["auto", "low", "high"],),
-                "max_tokens": ("INT", {"default": 512, "min": 16, "max": 8192}),
+                "max_tokens": ("INT", {"default": 512, "min": 16, "max": 4096}),
                 "prompt": ("STRING", {
                     "multiline": True,
                     "default": "What’s in this image?"

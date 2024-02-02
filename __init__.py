@@ -12,6 +12,7 @@ from .negi.stereo_image_generator import StereoImageGenerator
 from .negi.image_reader_writer import RandomImageLoader, SaveImageToDirectory
 from .negi.detect_face_rotation_for_inpainting import DetectFaceRotationForInpainting
 from .negi.openai_gpt4v import OpenAiGpt4v
+from .negi.openai_gpt import OpenAiGpt
 
 NODE_CLASS_MAPPINGS = {
     "NegiTools_OpenAiDalle3": OpenAiDalle3,
@@ -30,6 +31,7 @@ NODE_CLASS_MAPPINGS = {
     "NegiTools_SaveImageToDirectory": SaveImageToDirectory,
     "NegiTools_DetectFaceRotationForInpainting": DetectFaceRotationForInpainting,
     "NegiTools_OpenAiGpt4v": OpenAiGpt4v,
+    "NegiTools_OpenAiGpt": OpenAiGpt,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -49,4 +51,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "NegiTools_SaveImageToDirectory": "Save Image to Directory 🧅",
     "NegiTools_DetectFaceRotationForInpainting": "Detect Face Rotation for Inpainting 🧅",
     "NegiTools_OpenAiGpt4v": "OpenAI GPT4V 🧅",
+    "NegiTools_OpenAiGpt": "OpenAI GPT 🧅",
 }
