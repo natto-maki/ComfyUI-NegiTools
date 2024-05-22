@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-negitools"
+description = "Nodes:OpenAI DALLe3, OpenAI Translate to English, String Function, Seed Generator"
+version = "1.0.0"
+license = "LICENSE"
+dependencies = ["openai >= 1.3.0", "# controlnet-aux >= 0.0.7", "numba >= 0.58.1", "opencv-python >= 4.8.1.78", "# required from controlnet_aux", "huggingface-hub >= 0.19.3", "scipy >= 1.11.3", "scikit-image >= 0.20.0"]
+
+[project.urls]
+Repository = "https://github.com/natto-maki/ComfyUI-NegiTools"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-NegiTools"
+Icon = ""
