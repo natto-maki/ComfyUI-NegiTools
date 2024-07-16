@@ -5,7 +5,7 @@ class SeedGenerator:
     __generation = 0
 
     def __init__(self):
-        self.__previous_seed = random.randint(0, 0xffffffffffffffff)
+        self.__previous_seed = random.randint(0, 0x7fffffffffffffff)
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -29,6 +29,6 @@ class SeedGenerator:
 
     def doit(self, generation_mode):
         if generation_mode == "random":
-            self.__previous_seed = random.randint(0, 0xffffffffffffffff)
+            self.__previous_seed = random.randint(0, 0x7fffffffffffffff)
         print("NegiTools_SeedGenerator: provided seed value = %d" % self.__previous_seed)
         return (self.__previous_seed,)
